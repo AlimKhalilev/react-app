@@ -1,0 +1,25 @@
+.aside {
+    flex-basis: 25%;
+    min-height: 500px;
+}
+
+.aside nav ul {
+    margin: 0;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.aside nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.aside nav ul li a:hover {
+    color: rgb(142, 212, 240);
+}
+
+.aside nav ul li:not(:last-child) {
+    margin-bottom: 0.7rem;
+}
