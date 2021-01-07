@@ -16,6 +16,11 @@
     text-decoration: none;
 }
 
+.aside nav ul li a.active {
+    color: #2a3e5b;
+    border-bottom: 1px solid;
+}
+
 .aside nav ul li a:hover {
     color: rgb(142, 212, 240);
 }

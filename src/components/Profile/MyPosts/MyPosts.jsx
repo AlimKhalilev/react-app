@@ -1,7 +1,10 @@
 import "./MyPosts.scss";
 import Post from "./Post/Post";
 
-const MyPosts = () => {
+const MyPosts = (props) => {
+
+    let postDataComponents = props.postData.map(e => <Post key={e.id} message={e.message} likes={e.likes}/>)
+
     return (
         <div className="addPost">
             <div className="addPost-content">
@@ -12,8 +15,7 @@ const MyPosts = () => {
                 </div>
             </div>
             <div className="posts">
-                <Post message="Здарова всем пацаны, как дела??"/>
-                <Post message="Это конечно не Самара, и не Пермь.."/>
+                {postDataComponents}
             </div>
         </div>
     );

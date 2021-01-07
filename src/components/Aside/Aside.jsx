@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import "./Aside.scss";
 
 const Aside = () => {
@@ -6,13 +7,16 @@ const Aside = () => {
             <nav>
                 <ul>
                     <li>
-                        <a href="#a">Новости</a>
+                        <NavLink to="/profile">Профиль</NavLink>
                     </li>
                     <li>
-                        <a href="#a">Сообщения</a>
+                        <NavLink to="/news">Новости</NavLink>
                     </li>
                     <li>
-                        <a href="#a">Прочее</a>
+                        <NavLink to="/dialogs">Сообщения</NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/other">Прочее</NavLink>
                     </li>
                 </ul>
             </nav>

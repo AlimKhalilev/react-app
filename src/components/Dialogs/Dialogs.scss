@@ -1,0 +1,69 @@
+.dialog {
+    h2 {
+        margin-bottom: 2rem;
+    }
+
+    &-content {
+        display: flex;
+
+        &-persons {
+            flex-basis: 25%;
+            border-right: 1px solid grey;
+
+            &-list {
+                &-item {
+                    &:not(:last-child) {
+                        margin-bottom: 1.5rem;
+                    }
+                
+                    a {
+                        color: grey;
+                        text-decoration: none;
+                        transition: 0.3s ease-in-out;
+                
+                        &:hover {
+                            font-size: 1.2rem;
+                        }
+                    }
+                }
+            }
+        }
+
+        &-messages {
+            margin-left: 2rem;
+            flex-basis: 75%;
+
+            &-item {
+                display: flex;
+                align-items: flex-start;
+
+                &:not(:last-child) {
+                    margin-bottom: 1.5rem;
+                }
+
+                &-author {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    margin-right: 1.5rem;
+
+                    span {
+                        font-size: 0.7rem;
+                        margin-top: 0.2rem;
+                    }
+                }
+
+                &-text {
+                    background-color: antiquewhite;
+                    padding: 0.5rem 1rem;
+                    font-size: 0.8rem;
+
+                    span {
+                        line-height: 1.7;
+                    }
+                }
+            }
+
+        }
+    }
+}

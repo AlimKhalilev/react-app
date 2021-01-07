@@ -1,7 +1,14 @@
 .addPost {
+    margin-top: 1rem;
 
     textarea {
         min-width: 100%;
+    }
+
+    &-content {
+        h2 {
+            margin-bottom: 1rem;
+        }
     }
 
     &-button {
