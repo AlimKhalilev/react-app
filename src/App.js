@@ -6,14 +6,15 @@ import Header from "./components/Header/Header";
 import Profile from "./components/Profile/Profile";
 
 function App(props) {
+
     return (
         <BrowserRouter>
             <Header />
             <main className="main">
-                <Aside />
+                <Aside data={props.state.aside}/>
                 <div className="main-content">
-                    <Route path="/profile" render={() => <Profile postData={props.postData}/>} />
-                    <Route path="/dialogs" render={() => <Dialogs dialogMessages={props.dialogMessages} dialogPersons={props.dialogPersons}/>} />
+                    <Route path="/profile" render={() => <Profile data={props.state.profilePage} methods={props.methods.profilePage}/>} />
+                    <Route path="/dialogs" render={() => <Dialogs data={props.state.dialogsPage}/>} />
                 </div>
             </main>
         </BrowserRouter>

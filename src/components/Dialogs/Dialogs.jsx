@@ -28,8 +28,8 @@ const DialogMessage = (props) => {
 
 const Dialogs = (props) => {
 
-    let dialogPersonsComponents = props.dialogPersons.map(e => <DialogPerson name={e.name} id={e.id} key={e.id} />)
-    let dialogMessagesComponent = props.dialogMessages.map(e => <DialogMessage key={e.id} name={e.name} message={e.message}/>)
+    let dialogPersonsComponents = props.data.dialogPersons.map(e => <DialogPerson name={e.name} id={e.id} key={e.id} />)
+    let dialogMessagesComponent = props.data.dialogMessages.map(e => <DialogMessage key={e.id} name={e.name} message={e.message}/>)
 
     return (
         <div className="dialog">

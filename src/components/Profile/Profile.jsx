@@ -6,7 +6,7 @@ const Profile = (props) => {
     return (
         <div>
             <img className="main-content-profile-img" src={banner} alt="banner"/>
-            <MyPosts postData={props.postData}/>
+            <MyPosts data={props.data} methods={props.methods}/>
         </div>
     )
 };
