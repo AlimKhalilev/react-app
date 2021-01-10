@@ -1,7 +1,5 @@
-const ADD_POST = "ADD-POST"
-const CHANGE_POST_TEXT = "CHANGE-POST-TEXT"
-const ADD_MESSAGE = "ADD-MESSAGE"
-const CHANGE_MESSAGE_TEXT = "CHANGE-MESSAGE-TEXT"
+import profileReducer from "./profileReducer";
+import dialogsReducer from "./dialogsReducer";
 
 let store = {
     _rerenderDOM: "", // инициализация ререндера нашего приложения
@@ -27,7 +25,7 @@ let store = {
                 { id: 3, name: "Alim", message: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, temporibus!" },
                 { id: 4, name: "Alim", message: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, temporibus!" }
             ],
-            newDialogMessage: "xoba"
+            newDialogMessage: ""
         },
         aside: {
             friends: [
@@ -39,30 +37,8 @@ let store = {
         }
     },
     dispatch: function(action) {
-        if (action.type === ADD_POST) {
-            let newPost = {
-                id: Date.now(),
-                message: this._state.profilePage.newPostText,
-                likes: 0
-            };
-            this._state.profilePage.postData.push(newPost)
-            this._state.profilePage.newPostText = "";
-        }
-        else if (action.type === CHANGE_POST_TEXT) {
-            this._state.profilePage.newPostText = action.text;
-        }
-        else if (action.type === ADD_MESSAGE) {
-            let newMessage = {
-                id: Date.now(), 
-                name: "Alim", 
-                message: this._state.dialogsPage.newDialogMessage
-            }
-            this._state.dialogsPage.dialogMessages.push(newMessage);
-            this._state.dialogsPage.newDialogMessage = "";
-        }
-        else if (action.type === CHANGE_MESSAGE_TEXT) {
-            this._state.dialogsPage.newDialogMessage = action.text;
-        }
+        this._state.profilePage = profileReducer(this._state.profilePage, action);
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
         this._rerenderDOM(this._state);
     },
     subscribe: function(observer) { // observer - наблюдатель, подписка на изменение rerenderDOM
@@ -70,33 +46,6 @@ let store = {
     },
     getState: function() {
         return this._state
-    }
-}
-
-export const addPostActionCreator = () => {
-    return {
-        type: ADD_POST
-    }
-}
-
-export const changePostTextActionCreator = (text) => {
-    return {
-        type: CHANGE_POST_TEXT,
-        text: text
-    }
-}
-
-export const addMessageActionCreator = (text) => {
-    return {
-        type: ADD_MESSAGE,
-        text: text
-    }
-}
-
-export const changeMessageActionCreator = (text) => {
-    return {
-        type: CHANGE_MESSAGE_TEXT,
-        text: text
     }
 }
 

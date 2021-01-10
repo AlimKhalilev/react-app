@@ -1,5 +1,5 @@
 import React from "react";
-import { addMessageActionCreator, changeMessageActionCreator } from "../../../redux/state";
+import { addMessageActionCreator, changeMessageActionCreator } from "../../../redux/dialogsReducer";
 import "./AddMessage.scss"
 
 const AddMessage = (props) => {
