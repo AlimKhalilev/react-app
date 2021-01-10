@@ -13,8 +13,8 @@ function App(props) {
             <main className="main">
                 <Aside data={props.state.aside}/>
                 <div className="main-content">
-                    <Route path="/profile" render={() => <Profile data={props.state.profilePage} methods={props.methods.profilePage}/>} />
-                    <Route path="/dialogs" render={() => <Dialogs data={props.state.dialogsPage}/>} />
+                    <Route path="/profile" render={() => <Profile data={props.state.profilePage} dispatch={props.dispatch}/>} />
+                    <Route path="/dialogs" render={() => <Dialogs data={props.state.dialogsPage} dispatch={props.dispatch}/>} />
                 </div>
             </main>
         </BrowserRouter>

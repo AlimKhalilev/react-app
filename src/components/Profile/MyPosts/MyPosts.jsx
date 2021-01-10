@@ -7,7 +7,7 @@ const MyPosts = (props) => {
 
     return (
         <div className="addPost">
-            <AddPost methods={props.methods} newPostText={props.data.newPostText}/>
+            <AddPost dispatch={props.dispatch} newPostText={props.data.newPostText}/>
             <div className="posts">
                 {postDataComponents}
             </div>

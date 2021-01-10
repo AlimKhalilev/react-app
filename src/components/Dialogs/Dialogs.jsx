@@ -1,6 +1,7 @@
 import "./Dialogs.scss";
 import ava from "./ava.jpg";
 import { NavLink } from "react-router-dom";
+import AddMessage from "./AddMessage/AddMessage";
 
 const DialogPerson = (props) => {
     let path = "/dialogs/" + props.id;
@@ -42,6 +43,7 @@ const Dialogs = (props) => {
                 </div>
                 <div className="dialog-content-messages">
                     {dialogMessagesComponent}
+                    <AddMessage message={props.data.newDialogMessage} dispatch={props.dispatch}/>
                 </div>
             </div>
         </div>

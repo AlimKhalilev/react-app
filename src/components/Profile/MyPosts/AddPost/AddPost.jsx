@@ -1,4 +1,5 @@
 import React from "react";
+import { addPostActionCreator, changePostTextActionCreator } from "../../../../redux/state";
 import "./AddPost.scss"
 
 const AddPost = (props) => {
@@ -6,12 +7,12 @@ const AddPost = (props) => {
     let textareaInfo = React.createRef();
 
     let buttonClick = () => {
-        props.methods.addPost(textareaInfo.current.value)
+        props.dispatch(addPostActionCreator());
         //console.log();
     }
 
     let onPostChange = () => {
-        props.methods.changePostText(textareaInfo.current.value)
+        props.dispatch(changePostTextActionCreator(textareaInfo.current.value));
         //console.log(textareaInfo.current.value);
     }
 
