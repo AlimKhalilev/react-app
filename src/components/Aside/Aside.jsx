@@ -2,8 +2,11 @@ import { NavLink } from "react-router-dom";
 import "./Aside.scss";
 import Friend from "./Friend/Friend";
 
+
+
 const Aside = (props) => {
-    let myFrinds = props.data.friends.map(e => <Friend key={e.id} id={e.id} name={e.name}/>)
+    
+    let myFrinds = props.aside.friends.map(e => <Friend key={e.id} id={e.id} name={e.name}/>)
 
     return (
         <aside className="aside">

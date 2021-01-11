@@ -1,9 +1,9 @@
 import { BrowserRouter, Route } from "react-router-dom";
 import "./App.scss";
-import Aside from "./components/Aside/Aside";
+import AsideContainer from "./components/Aside/AsideContainer";
 import Dialogs from "./components/Dialogs/Dialogs";
 import Header from "./components/Header/Header";
-import Profile from "./components/Profile/Profile";
+import ProfileContainer from "./components/Profile/ProfileContainer";
 
 function App(props) {
 
@@ -11,14 +11,14 @@ function App(props) {
         <BrowserRouter>
             <Header />
             <main className="main">
-                <Aside data={props.state.aside}/>
+                <AsideContainer/>
                 <div className="main-content">
-                    <Route path="/profile" render={() => <Profile data={props.state.profilePage} dispatch={props.dispatch}/>} />
+                    <Route path="/profile" render={() => <ProfileContainer/>} />
                     <Route path="/dialogs" render={() => <Dialogs data={props.state.dialogsPage} dispatch={props.dispatch}/>} />
                 </div>
             </main>
         </BrowserRouter>
-    );
+    ); 
 }
 
 export default App;

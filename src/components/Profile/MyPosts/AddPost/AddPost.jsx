@@ -13,4 +13,4 @@ const AddPost = (props) => {
 };
 
 export default AddPost;
-// ФУНКЦИОНАЛЬНАЯ КОМПОНЕНТА
+// ПРЕЗЕНТАЦИОННАЯ КОМПОНЕНТА
