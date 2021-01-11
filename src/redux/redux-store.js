@@ -11,4 +11,6 @@ let reducers = combineReducers({ // сюда передаем объекты и�
 
 let store = createStore(reducers);
 
+window.store = store; // ДЛЯ ДЕБАГА И КОНТРОЛЯ ЧЕРЕЗ КОНСОЛЬ STATE
+
 export default store;

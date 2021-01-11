@@ -11,6 +11,7 @@ let initialState = {
 }
 
 const profileReducer = (state = initialState, action) => {
+    let stateCopy = {...state}; // инициализация копии для state, юзаем spread для развертки state в stateCopy
     switch (action.type) {
         case ADD_POST:
             let newPost = {
@@ -18,16 +19,17 @@ const profileReducer = (state = initialState, action) => {
                 message: state.newPostText,
                 likes: 0
             };
-            state.postData.push(newPost)
-            state.newPostText = "";
+            stateCopy.postData = [...state.postData] // развертка массива
+            stateCopy.postData.push(newPost)
+            stateCopy.newPostText = "";
             break;
         case CHANGE_POST_TEXT:
-            state.newPostText = action.text;
+            stateCopy.newPostText = action.text;
             break;
         default:
             break;
     }
-    return state;
+    return stateCopy;
 }
 
 export const addPostActionCreator = () => {
