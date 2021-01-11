@@ -2,6 +2,8 @@ import "./Dialogs.scss";
 import ava from "./ava.jpg";
 import { NavLink } from "react-router-dom";
 import AddMessage from "./AddMessage/AddMessage";
+import React from "react";
+import { addMessageActionCreator, changeMessageActionCreator } from "../../redux/dialogsReducer";
 
 const DialogPerson = (props) => {
     let path = "/dialogs/" + props.id;
@@ -32,6 +34,18 @@ const Dialogs = (props) => {
     let dialogPersonsComponents = props.data.dialogPersons.map(e => <DialogPerson name={e.name} id={e.id} key={e.id} />)
     let dialogMessagesComponent = props.data.dialogMessages.map(e => <DialogMessage key={e.id} name={e.name} message={e.message}/>)
 
+    let messageInfo = React.createRef();
+
+    let onMessageAdd = () => {
+        props.dispatch(addMessageActionCreator());
+        //console.log("hello");
+    }
+
+    let onMessageChange = () => {
+        props.dispatch(changeMessageActionCreator(messageInfo.current.value));
+        //console.log(messageInfo.current.value);
+    }
+
     return (
         <div className="dialog">
             <h2>Dialogs</h2>
@@ -43,7 +57,7 @@ const Dialogs = (props) => {
                 </div>
                 <div className="dialog-content-messages">
                     {dialogMessagesComponent}
-                    <AddMessage message={props.data.newDialogMessage} dispatch={props.dispatch}/>
+                    <AddMessage message={props.data.newDialogMessage} messageInfo={messageInfo} onMessageAdd={onMessageAdd} onMessageChange={onMessageChange}/>
                 </div>
             </div>
         </div>
