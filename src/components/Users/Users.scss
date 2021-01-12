@@ -1,0 +1,38 @@
+.users {
+    &-container {
+        margin-top: 2rem;
+
+        &-item {
+            display: flex;
+
+            &:not(:first-child) {
+                margin-top: 2rem;
+            }
+
+            &-data {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-right: 2rem;
+
+                img {
+                    margin-bottom: 0.5rem;
+                }
+            }
+
+            &-info {
+                display: flex;
+                border: 1px solid grey;
+                border-radius: 1rem;
+                padding: 1rem;
+
+                &-about {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    margin-right: 2rem;
+                }
+            }
+        }
+    }
+}

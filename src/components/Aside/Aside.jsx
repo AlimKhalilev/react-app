@@ -22,6 +22,9 @@ const Aside = (props) => {
                         <NavLink to="/dialogs">Сообщения</NavLink>
                     </li>
                     <li>
+                        <NavLink to="/users">Пользователи</NavLink>
+                    </li>
+                    <li>
                         <NavLink to="/other">Прочее</NavLink>
                     </li>
                 </ul>

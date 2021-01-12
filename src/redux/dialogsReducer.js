@@ -18,6 +18,7 @@ let initialState = {
 }
 
 const dialogsReducer = (state = initialState, action) => {
+    let stateCopy = {...state}; // инициализация копии для state, юзаем spread для развертки state в stateCopy
     switch (action.type) {
         case ADD_MESSAGE:
             let newMessage = {
@@ -25,16 +26,17 @@ const dialogsReducer = (state = initialState, action) => {
                 name: "Alim", 
                 message: state.newDialogMessage
             }
-            state.dialogMessages.push(newMessage);
-            state.newDialogMessage = "";
+            stateCopy.dialogMessages = [...state.dialogMessages];
+            stateCopy.dialogMessages.push(newMessage);
+            stateCopy.newDialogMessage = "";
             break;
         case CHANGE_MESSAGE_TEXT:
-            state.newDialogMessage = action.text;
+            stateCopy.newDialogMessage = action.text;
             break;
         default:
             break;
     }
-    return state;
+    return stateCopy;
 }
 
 export const addMessageActionCreator = (text) => {

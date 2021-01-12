@@ -1,12 +1,12 @@
 import { BrowserRouter, Route } from "react-router-dom";
 import "./App.scss";
 import AsideContainer from "./components/Aside/AsideContainer";
-import Dialogs from "./components/Dialogs/Dialogs";
-import Header from "./components/Header/Header";
+import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
+import UsersContainer from "./components/Users/UsersContainer";
+import Header from "./components/Header/Header";
 
-function App(props) {
-
+function App() {
     return (
         <BrowserRouter>
             <Header />
@@ -14,7 +14,8 @@ function App(props) {
                 <AsideContainer/>
                 <div className="main-content">
                     <Route path="/profile" render={() => <ProfileContainer/>} />
-                    <Route path="/dialogs" render={() => <Dialogs data={props.state.dialogsPage} dispatch={props.dispatch}/>} />
+                    <Route path="/dialogs" render={() => <DialogsContainer/>} />
+                    <Route path="/users" render={() => <UsersContainer/>} />
                 </div>
             </main>
         </BrowserRouter>
