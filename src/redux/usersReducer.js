@@ -1,8 +1,14 @@
 const SET_FOLLOW = "SET-FOLLOW"
 const SET_USERS = "SET-USERS"
+const SET_PAGE_SIZE = "SET-PAGE-SIZE"
+const SET_TOTAL_USER_COUNT = "SET-TOTAL-USER-COUNT"
+const SET_CURRENT_PAGE = "SET-CURRENT-PAGE"
 
 let initialState = {
-    usersData: []
+    usersData: [],
+    pageSize: 4, // количество элементов на странице (пока не меняется)
+    totalUserCount: 0, // количество пользователей всего в бд (приходит с API)
+    currentPage: 1 // текущая страница (изначально 1, потом меняется через клик на кнопку pagination)
 }
 
 export const usersReducer = (state = initialState, action) => {
@@ -18,7 +24,16 @@ export const usersReducer = (state = initialState, action) => {
             stateCopy.usersData = [...usersData];
             break;
         case SET_USERS:
-            stateCopy = {usersData: [...action.users]};
+            stateCopy.usersData = [...action.users];
+            break;
+        case SET_PAGE_SIZE:
+            stateCopy.pageSize = action.size;
+            break;
+        case SET_TOTAL_USER_COUNT:
+            stateCopy.totalUserCount = action.count;
+            break;
+        case SET_CURRENT_PAGE:
+            stateCopy.currentPage = action.page;
             break;
         default:
             break;
@@ -39,4 +54,26 @@ export const setUsers = (users) => {
         users: users
     }
 }
+
+export const setPageSize = (size) => {
+    return {
+        type: SET_PAGE_SIZE,
+        size: size
+    }
+}
+
+export const setTotalUserCount = (count) => {
+    return {
+        type: SET_TOTAL_USER_COUNT,
+        count: count
+    }
+}
+
+export const setCurrentPage = (page) => {
+    return {
+        type: SET_CURRENT_PAGE,
+        page: page
+    }
+}
+
 export default usersReducer;

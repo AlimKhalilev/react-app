@@ -33,4 +33,8 @@ body {
     &:hover, &:focus {
         background-color: #048d52;
     }
+
+    &.active {
+        background-color:#057947
+    }
 }
