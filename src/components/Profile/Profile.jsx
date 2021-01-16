@@ -1,11 +1,11 @@
 import "./Profile.scss";
-import banner from "./banner.png";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
+import ProfileInfoContainer from "./ProfileInfo/ProfileInfoContainer";
 
-const Profile = (props) => {
+const Profile = () => {
     return (
         <div>
-            <img className="main-content-profile-img" src={banner} alt="banner"/>
+            <ProfileInfoContainer/>
             <MyPostsContainer/>
         </div>
     )

@@ -1,5 +1,6 @@
 const ADD_POST = "ADD-POST"
 const CHANGE_POST_TEXT = "CHANGE-POST-TEXT"
+const SET_PROFILE_INFO = "SET-PROFILE-INFO"
 
 let initialState = {
     postData: [
@@ -7,7 +8,8 @@ let initialState = {
         { id: 1, message: "Это конечно не Самара, и не Пермь..", likes: 2 },
         { id: 2, message: "Але че куда", likes: 1 }
     ],
-    newPostText: ""
+    newPostText: "",
+    profileInfo: null
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -26,6 +28,9 @@ const profileReducer = (state = initialState, action) => {
         case CHANGE_POST_TEXT:
             stateCopy.newPostText = action.text;
             break;
+        case SET_PROFILE_INFO:
+            stateCopy.profileInfo = action.info;
+            break;
         default:
             break;
     }
@@ -42,6 +47,13 @@ export const changePostTextActionCreator = (text) => {
     return {
         type: CHANGE_POST_TEXT,
         text: text
+    }
+}
+
+export const setProfileInfo = (info) => {
+    return {
+        type: SET_PROFILE_INFO,
+        info: info
     }
 }
 

@@ -46,7 +46,7 @@ export const usersReducer = (state = initialState, action) => {
     return stateCopy;
 }
 
-export const changeFollowActionCreator = (id) => {
+export const changeFollow = (id) => {
     return {
         type: SET_FOLLOW,
         id: id

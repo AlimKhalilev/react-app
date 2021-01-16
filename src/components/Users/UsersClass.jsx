@@ -2,6 +2,7 @@ import React from "react"
 import "./Users.scss"
 import * as axios from "axios"
 import Preloader from "../Common/Preloader/Preloader";
+import { NavLink } from "react-router-dom";
 
 class UsersClass extends React.Component {
     // constructor(props) { // конструктор класса
@@ -10,28 +11,28 @@ class UsersClass extends React.Component {
 
     componentDidMount() { // когда компонента смонтирована
         //console.log("props: ", this.props);
-        this.props.setFetchingCompleteLocal(true); // ставим загрузку страницы на true (еще грузится)
+        this.props.setFetchingComplete(true); // ставим загрузку страницы на true (еще грузится)
 
         axios.get("https://files.thechampguess.ru/samuraiJS/users.php?page="+ this.props.currentPage +"&count=" + this.props.pageSize) // загружаем данные с API в процессе конструктора класса (один раз)
         .then(response => {
-            this.props.setUsersLocal(response.data.users);
-            this.props.setTotalUserCountLocal(response.data.totalCount);
-            this.props.setFetchingCompleteLocal(false); // ставим на загрузку страницы false (загрузили)
-            console.log(response.data);
+            this.props.setUsers(response.data.users);
+            this.props.setTotalUserCount(response.data.totalCount);
+            this.props.setFetchingComplete(false); // ставим на загрузку страницы false (загрузили)
+            //console.log(response.data);
         });
 
         //console.log("Получили данные с API")
     }
 
     onPaginationClick = (e) => {
-        this.props.setCurrentPageLocal(e);
-        this.props.setFetchingCompleteLocal(true); // ставим загрузку страницы на true (еще грузится)
+        this.props.setCurrentPage(e);
+        this.props.setFetchingComplete(true); // ставим загрузку страницы на true (еще грузится)
 
         axios.get("https://files.thechampguess.ru/samuraiJS/users.php?page="+ e +"&count=" + this.props.pageSize) // загружаем данные с API в процессе конструктора класса (один раз)
         .then(response => {
-            this.props.setUsersLocal(response.data.users);
-            this.props.setTotalUserCountLocal(response.data.totalCount);
-            this.props.setFetchingCompleteLocal(false); // ставим на загрузку страницы false (загрузили)
+            this.props.setUsers(response.data.users);
+            this.props.setTotalUserCount(response.data.totalCount);
+            this.props.setFetchingComplete(false); // ставим на загрузку страницы false (загрузили)
             //console.log(response.data);
         });
     }
@@ -41,14 +42,9 @@ class UsersClass extends React.Component {
         let pageCount = Math.ceil(this.props.totalUserCount / this.props.pageSize);
         let pages = [...Array(pageCount).keys()].map(e => e + 1); // массив 0 1 2 3 и так далее
 
-        console.log(this.props, "k")
+        //console.log(this.props, "k")
 
-        let myUsers = this.props.usersData.map(e => <User key={e.id} data={e} followMethod={this.props.onChangeFollow}/>)
-
-        setTimeout(() => { 
-            //this.props.setFetchingCompleteLocal();
-            console.log(this.props)
-        }, 3000);
+        let myUsers = this.props.usersData.map(e => <User key={e.id} data={e} followMethod={this.props.сhangeFollow}/>)
 
         return (
             <UsersAPIComp isFetching={this.props.isFetching} users={myUsers} pages={pages} currentPage={this.props.currentPage} onPaginationClick={this.onPaginationClick}/>
@@ -72,15 +68,17 @@ const UsersAPIComp = (props) => {
 
 const User = (props) => {
 
-    const onChangeFollowLocal = () => {
+    const onChangeFollow = () => {
         props.followMethod(props.data.id)
     }
 
     return (
         <div className="users-container-item">
             <div className="users-container-item-data">
-                <img src={props.data.photo} alt="ava"/>
-                <button className="button_primary" onClick={onChangeFollowLocal}>{props.data.isFollow ? "Unfollow" : "Follow"}</button>
+                <NavLink to={"profile/" + props.data.id}>
+                    <img src={props.data.photo} alt="ava"/>
+                </NavLink>
+                <button className="button_primary" onClick={onChangeFollow}>{props.data.isFollow ? "Unfollow" : "Follow"}</button>
             </div>
             <div className="users-container-item-info">
                 <div className="users-container-item-info-about">
