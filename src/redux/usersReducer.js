@@ -3,12 +3,14 @@ const SET_USERS = "SET-USERS"
 const SET_PAGE_SIZE = "SET-PAGE-SIZE"
 const SET_TOTAL_USER_COUNT = "SET-TOTAL-USER-COUNT"
 const SET_CURRENT_PAGE = "SET-CURRENT-PAGE"
+const SET_FETCHING_COMPLETE = "SET-FETCHING-COMPLETE"
 
 let initialState = {
     usersData: [],
     pageSize: 4, // количество элементов на странице (пока не меняется)
     totalUserCount: 0, // количество пользователей всего в бд (приходит с API)
-    currentPage: 1 // текущая страница (изначально 1, потом меняется через клик на кнопку pagination)
+    currentPage: 1, // текущая страница (изначально 1, потом меняется через клик на кнопку pagination),
+    isFetching: true // происходит ли процесс загрузки 
 }
 
 export const usersReducer = (state = initialState, action) => {
@@ -34,6 +36,9 @@ export const usersReducer = (state = initialState, action) => {
             break;
         case SET_CURRENT_PAGE:
             stateCopy.currentPage = action.page;
+            break;
+        case SET_FETCHING_COMPLETE:
+            stateCopy.isFetching = action.fetching;
             break;
         default:
             break;
@@ -73,6 +78,13 @@ export const setCurrentPage = (page) => {
     return {
         type: SET_CURRENT_PAGE,
         page: page
+    }
+}
+
+export const setFetchingComplete = (fetching) => {
+    return {
+        type: SET_FETCHING_COMPLETE,
+        fetching: fetching
     }
 }
 

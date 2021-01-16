@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { changeFollowActionCreator, setCurrentPage, setPageSize, setTotalUserCount, setUsers } from "../../redux/usersReducer";
+import { changeFollowActionCreator, setCurrentPage, setFetchingComplete, setPageSize, setTotalUserCount, setUsers } from "../../redux/usersReducer";
 import Users from "./UsersClass";
 
 const mapStateToProps = (state) => {
@@ -7,14 +7,14 @@ const mapStateToProps = (state) => {
         usersData: state.usersPage.usersData,
         pageSize: state.usersPage.pageSize,
         totalUserCount: state.usersPage.totalUserCount,
-        currentPage: state.usersPage.currentPage
+        currentPage: state.usersPage.currentPage,
+        isFetching: state.usersPage.isFetching
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         onChangeFollow: (id) => {
-            console.log(id)
             dispatch(changeFollowActionCreator(id));
         },
         setUsersLocal: (users) => {
@@ -28,6 +28,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         setCurrentPageLocal: (page) => {
             dispatch(setCurrentPage(page));
+        },
+        setFetchingCompleteLocal: (fetching) => {
+            dispatch(setFetchingComplete(fetching));
         }
     }
 }
