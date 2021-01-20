@@ -4,12 +4,12 @@ import AsideContainer from "./components/Aside/AsideContainer";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import UsersContainer from "./components/Users/UsersContainer";
-import Header from "./components/Header/Header";
+import HeaderContainer from "./components/Header/HeaderContainer";
 
 function App() {
     return (
         <BrowserRouter>
-            <Header />
+            <HeaderContainer />
             <main className="main">
                 <AsideContainer/>
                 <div className="main-content">

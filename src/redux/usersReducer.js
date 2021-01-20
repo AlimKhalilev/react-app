@@ -7,7 +7,7 @@ const SET_FETCHING_COMPLETE = "SET-FETCHING-COMPLETE"
 
 let initialState = {
     usersData: [],
-    pageSize: 4, // количество элементов на странице (пока не меняется)
+    pageSize: 40, // количество элементов на странице (пока не меняется)
     totalUserCount: 0, // количество пользователей всего в бд (приходит с API)
     currentPage: 1, // текущая страница (изначально 1, потом меняется через клик на кнопку pagination),
     isFetching: true // происходит ли процесс загрузки 
@@ -19,7 +19,7 @@ export const usersReducer = (state = initialState, action) => {
         case SET_FOLLOW:
             let usersData = stateCopy.usersData.map(obj => {
                 if (obj.id === action.id) {
-                    obj.isFollow = !obj.isFollow;
+                    obj.followed = !obj.followed;
                 }
                 return obj;
             });
