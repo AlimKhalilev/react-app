@@ -1,3 +1,5 @@
+import { usersAPI } from "../api/api"
+
 const ADD_POST = "ADD-POST"
 const CHANGE_POST_TEXT = "CHANGE-POST-TEXT"
 const SET_PROFILE_INFO = "SET-PROFILE-INFO"
@@ -54,6 +56,17 @@ export const setProfileInfo = (info) => {
     return {
         type: SET_PROFILE_INFO,
         info: info
+    }
+}
+
+export const getUserProfileInfo = (id) => {
+    return (dispatch) => {
+        dispatch(setProfileInfo(null)); // очищаем данные профиля пользователя
+
+        usersAPI.getUserProfile(id) // загружаем данные с API в процессе конструктора класса (один раз)
+        .then(response => {
+            dispatch(setProfileInfo(response.data));
+        });
     }
 }
 

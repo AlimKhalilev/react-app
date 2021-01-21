@@ -3,7 +3,7 @@ import "./Users.scss"
 import Preloader from "../Common/Preloader/Preloader";
 import { NavLink } from "react-router-dom";
 import default_avatar from "../../assets/img/default_avatar.png"
-import { usersAPI } from "../../api/api";
+
 class UsersClass extends React.Component {
     // constructor(props) { // конструктор класса
     //     super(props); // передача конструктора для родительского класса
@@ -11,31 +11,16 @@ class UsersClass extends React.Component {
 
     componentDidMount() { // когда компонента смонтирована
         //console.log("props: ", this.props);
-        this.props.setFetchingComplete(true); // ставим загрузку страницы на true (еще грузится)
+        //console.log("page="+ this.props.currentPage +"&count=" + this.props.pageSize)
 
-        console.log("page="+ this.props.currentPage +"&count=" + this.props.pageSize)
-
-        usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(response => {
-            this.props.setUsers(response.data.items);
-            this.props.setTotalUserCount(response.data.totalCount);
-            this.props.setFetchingComplete(false); // ставим на загрузку страницы false (загрузили)
-            //console.log(response.data);
-        });
-
+        this.props.getUsersThunkCreator(this.props.currentPage, this.props.pageSize);
         
         //console.log("Получили данные с API")
     }
 
     onPaginationClick = (e) => { // приходит id страницы
         this.props.setCurrentPage(e);
-        this.props.setFetchingComplete(true); // ставим загрузку страницы на true (еще грузится)
-
-        usersAPI.getUsers(e, this.props.pageSize).then(response => {
-            this.props.setUsers(response.data.items);
-            this.props.setTotalUserCount(response.data.totalCount);
-            this.props.setFetchingComplete(false); // ставим на загрузку страницы false (загрузили)
-            //console.log(response.data);
-        });
+        this.props.getUsersThunkCreator(e, this.props.pageSize);
     }
 
     render() {
@@ -46,9 +31,9 @@ class UsersClass extends React.Component {
         //console.log(this.props);
 
         let myUsers = this.props.usersData.map(e => <User key={e.id} data={e}
-            changeFollowDisabledInfo={this.props.changeFollowDisabledInfo}
-            followDisabledInfo={this.props.followDisabledInfo} 
-            followMethod={this.props.changeFollow} />)
+            followUserThunkCreator={this.props.followUserThunkCreator}
+            unfollowUserThunkCreator={this.props.unfollowUserThunkCreator}
+            followDisabledInfo={this.props.followDisabledInfo} />)
 
         return (
             <UsersAPIComp isFetching={this.props.isFetching} users={myUsers} pages={pages} currentPage={this.props.currentPage} onPaginationClick={this.onPaginationClick}/>
@@ -75,31 +60,13 @@ const User = (props) => {
     //console.log("user: ", props)
 
     const onChangeFollow = () => {
-        props.changeFollowDisabledInfo(props.data.id); // вырубаем на время кнопку (disabled)
 
         if (!props.data.followed) { // если мы не подписаны на челика
-            usersAPI.followToUser(props.data.id).then(response => { // подписываемся на него
-                if (response.data.resultCode === 0) { // если все прошло успешно
-                    props.followMethod(props.data.id)
-                    props.changeFollowDisabledInfo(props.data.id);
-                }
-            });
+            props.followUserThunkCreator(props.data.id);
         }
         else {
-            usersAPI.unfollowToUser(props.data.id).then(response => {
-                if (response.data.resultCode === 0) { // если все прошло успешно
-                    props.followMethod(props.data.id)
-                    props.changeFollowDisabledInfo(props.data.id);
-                }
-            });
+            props.unfollowUserThunkCreator(props.data.id);
         }
-
-        // setTimeout(() => {
-        //     //props.followMethod(props.data.id)
-        //     console.log(props.data.id)
-        //     props.changeFollowDisabledInfo(props.data.id);
-        //     console.log(props.followDisabledInfo);
-        // }, 200)
         
     }
 

@@ -20,5 +20,8 @@ export const usersAPI = {
     },
     getUserProfile: (id) => {
         return instance.get("profile/" + id); // получить профиль пользователя
+    },
+    getAuth: () => {
+        return instance.get("auth/me");
     }
 }

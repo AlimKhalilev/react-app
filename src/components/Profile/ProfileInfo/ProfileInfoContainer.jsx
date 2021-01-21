@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { setProfileInfo } from "../../../redux/profileReducer";
+import { getUserProfileInfo } from "../../../redux/profileReducer";
+import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 import ProfileInfo from "./ProfileInfoClass";
 
 const mapStateToProps = (state) => {
@@ -10,11 +11,13 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-    setProfileInfo
+    getUserProfileInfo
 }
 
-const ProfileInfoWithRouter = withRouter(ProfileInfo); // добавление withRouter для получения инфы из адресной строки
+const ProfileInfoRedirect = withAuthRedirect(ProfileInfo); // HOC для проверки авторизации
 
-const ProfileInfoContainer = connect(mapStateToProps, mapDispatchToProps)(ProfileInfoWithRouter);
+const ProfileInfoWithRouter = withRouter(ProfileInfoRedirect); // HOC добавление withRouter для получения инфы из адресной строки
+
+const ProfileInfoContainer = connect(mapStateToProps, mapDispatchToProps)(ProfileInfoWithRouter); // HOC добавления инфы State и Dispatch
 
 export default ProfileInfoContainer;

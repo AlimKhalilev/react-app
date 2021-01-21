@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { changeFollow, changeFollowDisabledInfo, setCurrentPage, setFetchingComplete, setPageSize, setTotalUserCount, setUsers } from "../../redux/usersReducer";
+import { changeFollow, changeFollowDisabledInfo, followUserThunkCreator, getUsersThunkCreator, setCurrentPage, setFetchingComplete, setPageSize, setTotalUserCount, setUsers, unfollowUserThunkCreator } from "../../redux/usersReducer";
 import Users from "./UsersClass";
 
 const mapStateToProps = (state) => {
@@ -20,8 +20,13 @@ const mapDispatchToPropsObject = { // передаем просто объект
     setTotalUserCount,
     setCurrentPage,
     setFetchingComplete,
-    changeFollowDisabledInfo
+    changeFollowDisabledInfo,
+    getUsersThunkCreator,
+    followUserThunkCreator,
+    unfollowUserThunkCreator
 }
+
+
 
 const UsersContainer = connect(mapStateToProps, mapDispatchToPropsObject)(Users);
 

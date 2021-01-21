@@ -1,3 +1,5 @@
+import { usersAPI } from "../api/api"
+
 const SET_FOLLOW = "SET-FOLLOW"
 const SET_USERS = "SET-USERS"
 const SET_PAGE_SIZE = "SET-PAGE-SIZE"
@@ -104,6 +106,55 @@ export const changeFollowDisabledInfo = (id) => {
     return {
         type: CHANGE_FOLLOW_DISABLED_INFO,
         id: id
+    }
+}
+
+// THUNK LEVEL
+
+export const getUsersThunkCreator = (currentPage, pageSize) => { // замыкание
+    return (dispatch) => {
+    
+        dispatch(setFetchingComplete(true)); // ставим загрузку страницы на true (еще грузится)
+
+        usersAPI.getUsers(currentPage, pageSize).then(response => {
+            dispatch(setUsers(response.data.items));
+            dispatch(setTotalUserCount(response.data.totalCount));
+            dispatch(setFetchingComplete(false)); // ставим на загрузку страницы false (загрузили)
+            //console.log(response.data);
+        });
+    }
+}
+
+export const followUserThunkCreator = (id) => { // замыкание
+    return (dispatch) => {
+    
+        dispatch(changeFollowDisabledInfo(id)); // ставим загрузку страницы на true (еще грузится)
+
+        usersAPI.followToUser(id).then(response => {
+            if (response.data.resultCode === 0) { // если все прошло успешно
+                dispatch(changeFollow(id));
+                dispatch(changeFollowDisabledInfo(id));
+            }
+        });
+    }
+}
+
+export const unfollowUserThunkCreator = (id) => { // замыкание
+    return (dispatch) => {
+    
+        dispatch(changeFollowDisabledInfo(id)); // ставим загрузку страницы на true (еще грузится)
+
+        usersAPI.unfollowToUser(id).then(response => {
+            if (response.data.resultCode === 0) { // если все прошло успешно
+                dispatch(changeFollow(id));
+                dispatch(changeFollowDisabledInfo(id));
+            }
+        });
+
+        // setTimeout(() => {
+        //     dispatch(changeFollow(id));
+        //     dispatch(changeFollowDisabledInfo(id));
+        // }, 1200)
     }
 }
 
