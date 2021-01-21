@@ -1,6 +1,6 @@
 import React from "react"
-import * as axios from "axios"
 import Preloader from "../../Common/Preloader/Preloader";
+import { usersAPI } from "../../../api/api";
 
 class ProfileInfoClass extends React.Component {
     componentDidMount() { // когда компонента смонтирована
@@ -10,7 +10,7 @@ class ProfileInfoClass extends React.Component {
 
         //console.log(profileID)
 
-        axios.get("https://files.thechampguess.ru/samuraiJS/profileInfo.php?id=" + profileID) // загружаем данные с API в процессе конструктора класса (один раз)
+        usersAPI.getUserProfile(profileID) // загружаем данные с API в процессе конструктора класса (один раз)
         .then(response => {
             this.props.setProfileInfo(response.data);
         });
@@ -26,11 +26,12 @@ class ProfileInfoClass extends React.Component {
 }
 
 const ProfileInfo = (props) => {
+    console.log(props)
     return (
         <div>
-            Profile id: {props.id} <br></br>
-            Name: {props.name} <br></br>
-            Status: {props.status} <br></br>
+            Profile id: {props.userId} <br></br>
+            Name: {props.fullName} <br></br>
+            Image: <img src={props.photos.small} alt="UserPhoto"/>
         </div>
     )
 }

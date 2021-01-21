@@ -37,4 +37,8 @@ body {
     &.active {
         background-color:#057947
     }
+
+    &:disabled {
+        background-color: grey;
+    }
 }

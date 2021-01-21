@@ -4,13 +4,15 @@ const SET_PAGE_SIZE = "SET-PAGE-SIZE"
 const SET_TOTAL_USER_COUNT = "SET-TOTAL-USER-COUNT"
 const SET_CURRENT_PAGE = "SET-CURRENT-PAGE"
 const SET_FETCHING_COMPLETE = "SET-FETCHING-COMPLETE"
+const CHANGE_FOLLOW_DISABLED_INFO = "CHANGE-FOLLOW-DISABLED-INFO"
 
 let initialState = {
     usersData: [],
     pageSize: 40, // количество элементов на странице (пока не меняется)
     totalUserCount: 0, // количество пользователей всего в бд (приходит с API)
     currentPage: 1, // текущая страница (изначально 1, потом меняется через клик на кнопку pagination),
-    isFetching: true // происходит ли процесс загрузки 
+    isFetching: true, // происходит ли процесс загрузки,
+    followDisabledInfo: [] // массив id, на которых мы сейчас нажали 
 }
 
 export const usersReducer = (state = initialState, action) => {
@@ -39,6 +41,16 @@ export const usersReducer = (state = initialState, action) => {
             break;
         case SET_FETCHING_COMPLETE:
             stateCopy.isFetching = action.fetching;
+            break;
+        case CHANGE_FOLLOW_DISABLED_INFO:
+            stateCopy.followDisabledInfo = [...state.followDisabledInfo];
+            let searchIndex = stateCopy.followDisabledInfo.indexOf(action.id);
+            if (searchIndex > -1) {// если нашли в массиве элемент который уже disabled
+                stateCopy.followDisabledInfo.splice(searchIndex, 1); // удаляем этот элемент
+            }
+            else {
+                stateCopy.followDisabledInfo.push(action.id);
+            }
             break;
         default:
             break;
@@ -85,6 +97,13 @@ export const setFetchingComplete = (fetching) => {
     return {
         type: SET_FETCHING_COMPLETE,
         fetching: fetching
+    }
+}
+
+export const changeFollowDisabledInfo = (id) => {
+    return {
+        type: CHANGE_FOLLOW_DISABLED_INFO,
+        id: id
     }
 }
 

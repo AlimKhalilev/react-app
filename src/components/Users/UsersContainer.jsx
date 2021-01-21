@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { changeFollow, setCurrentPage, setFetchingComplete, setPageSize, setTotalUserCount, setUsers } from "../../redux/usersReducer";
+import { changeFollow, changeFollowDisabledInfo, setCurrentPage, setFetchingComplete, setPageSize, setTotalUserCount, setUsers } from "../../redux/usersReducer";
 import Users from "./UsersClass";
 
 const mapStateToProps = (state) => {
@@ -8,7 +8,8 @@ const mapStateToProps = (state) => {
         pageSize: state.usersPage.pageSize,
         totalUserCount: state.usersPage.totalUserCount,
         currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching
+        isFetching: state.usersPage.isFetching,
+        followDisabledInfo: state.usersPage.followDisabledInfo
     }
 }
 
@@ -18,7 +19,8 @@ const mapDispatchToPropsObject = { // передаем просто объект
     setPageSize,
     setTotalUserCount,
     setCurrentPage,
-    setFetchingComplete
+    setFetchingComplete,
+    changeFollowDisabledInfo
 }
 
 const UsersContainer = connect(mapStateToProps, mapDispatchToPropsObject)(Users);

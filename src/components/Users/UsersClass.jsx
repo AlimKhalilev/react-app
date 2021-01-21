@@ -1,10 +1,9 @@
 import React from "react"
 import "./Users.scss"
-import * as axios from "axios"
 import Preloader from "../Common/Preloader/Preloader";
 import { NavLink } from "react-router-dom";
 import default_avatar from "../../assets/img/default_avatar.png"
-
+import { usersAPI } from "../../api/api";
 class UsersClass extends React.Component {
     // constructor(props) { // конструктор класса
     //     super(props); // передача конструктора для родительского класса
@@ -16,11 +15,7 @@ class UsersClass extends React.Component {
 
         console.log("page="+ this.props.currentPage +"&count=" + this.props.pageSize)
 
-        axios.get("https://social-network.samuraijs.com/api/1.0/users?page="+ this.props.currentPage +"&count=" + this.props.pageSize,
-        {
-            withCredentials: true
-        }) // загружаем данные с API в процессе конструктора класса (один раз)
-        .then(response => {
+        usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(response => {
             this.props.setUsers(response.data.items);
             this.props.setTotalUserCount(response.data.totalCount);
             this.props.setFetchingComplete(false); // ставим на загрузку страницы false (загрузили)
@@ -31,15 +26,11 @@ class UsersClass extends React.Component {
         //console.log("Получили данные с API")
     }
 
-    onPaginationClick = (e) => {
+    onPaginationClick = (e) => { // приходит id страницы
         this.props.setCurrentPage(e);
         this.props.setFetchingComplete(true); // ставим загрузку страницы на true (еще грузится)
 
-        axios.get("https://social-network.samuraijs.com/api/1.0/users?page=" + e + "&count=" + this.props.pageSize,
-        {
-            withCredentials: true
-        }) // загружаем данные с API в процессе конструктора класса (один раз)
-        .then(response => {
+        usersAPI.getUsers(e, this.props.pageSize).then(response => {
             this.props.setUsers(response.data.items);
             this.props.setTotalUserCount(response.data.totalCount);
             this.props.setFetchingComplete(false); // ставим на загрузку страницы false (загрузили)
@@ -52,7 +43,12 @@ class UsersClass extends React.Component {
         let pageCount = Math.ceil(this.props.totalUserCount / this.props.pageSize);
         let pages = [...Array(pageCount).keys()].map(e => e + 1); // массив 0 1 2 3 и так далее
 
-        let myUsers = this.props.usersData.map(e => <User key={e.id} data={e} followMethod={this.props.changeFollow}/>)
+        //console.log(this.props);
+
+        let myUsers = this.props.usersData.map(e => <User key={e.id} data={e}
+            changeFollowDisabledInfo={this.props.changeFollowDisabledInfo}
+            followDisabledInfo={this.props.followDisabledInfo} 
+            followMethod={this.props.changeFollow} />)
 
         return (
             <UsersAPIComp isFetching={this.props.isFetching} users={myUsers} pages={pages} currentPage={this.props.currentPage} onPaginationClick={this.onPaginationClick}/>
@@ -76,43 +72,38 @@ const UsersAPIComp = (props) => {
 
 const User = (props) => {
 
-    //console.log("user", props)
+    //console.log("user: ", props)
 
     const onChangeFollow = () => {
+        props.changeFollowDisabledInfo(props.data.id); // вырубаем на время кнопку (disabled)
 
         if (!props.data.followed) { // если мы не подписаны на челика
-            axios.post("https://social-network.samuraijs.com/api/1.0/follow/" + props.data.id, // подписка
-                {},
-                {
-                    withCredentials: true,
-                    headers: {
-                        "API-KEY": "586b73f2-a87d-43b3-a302-62ce4f729018"
-                    }
-                }
-            )
-            .then(response => {
+            usersAPI.followToUser(props.data.id).then(response => { // подписываемся на него
                 if (response.data.resultCode === 0) { // если все прошло успешно
                     props.followMethod(props.data.id)
+                    props.changeFollowDisabledInfo(props.data.id);
                 }
             });
         }
         else {
-            axios.delete("https://social-network.samuraijs.com/api/1.0/follow/" + props.data.id, // отписка
-                {
-                    withCredentials: true,
-                    headers: {
-                        "API-KEY": "586b73f2-a87d-43b3-a302-62ce4f729018"
-                    }
-                }
-            )
-            .then(response => {
+            usersAPI.unfollowToUser(props.data.id).then(response => {
                 if (response.data.resultCode === 0) { // если все прошло успешно
                     props.followMethod(props.data.id)
+                    props.changeFollowDisabledInfo(props.data.id);
                 }
             });
         }
+
+        // setTimeout(() => {
+        //     //props.followMethod(props.data.id)
+        //     console.log(props.data.id)
+        //     props.changeFollowDisabledInfo(props.data.id);
+        //     console.log(props.followDisabledInfo);
+        // }, 200)
         
     }
+
+    // внизу где includes смотрим, если в массиве инфы есть id текущего пользователя, значит его кнопка follow будет disabled
 
     return (
         <div className="users-container-item">
@@ -120,7 +111,7 @@ const User = (props) => {
                 <NavLink to={"profile/" + props.data.id}>
                     <img src={props.data.photos.small || default_avatar} alt="ava"/>
                 </NavLink>
-                <button className="button_primary" onClick={onChangeFollow}>{props.data.followed ? "Unfollow" : "Follow"}</button>
+                <button disabled={props.followDisabledInfo.includes(props.data.id)} className="button_primary" onClick={onChangeFollow}>{props.data.followed ? "Unfollow" : "Follow"}</button>
             </div>
             <div className="users-container-item-info">
                 <div className="users-container-item-info-about">
