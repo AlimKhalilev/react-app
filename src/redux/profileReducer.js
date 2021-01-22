@@ -1,8 +1,9 @@
-import { usersAPI } from "../api/api"
+import { profileAPI } from "../api/api"
 
 const ADD_POST = "ADD-POST"
 const CHANGE_POST_TEXT = "CHANGE-POST-TEXT"
 const SET_PROFILE_INFO = "SET-PROFILE-INFO"
+const SET_USER_STATUS = "SET-USER-STATUS"
 
 let initialState = {
     postData: [
@@ -11,7 +12,8 @@ let initialState = {
         { id: 2, message: "Але че куда", likes: 1 }
     ],
     newPostText: "",
-    profileInfo: null
+    profileInfo: null,
+    status: ""
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -32,6 +34,9 @@ const profileReducer = (state = initialState, action) => {
             break;
         case SET_PROFILE_INFO:
             stateCopy.profileInfo = action.info;
+            break;
+        case SET_USER_STATUS:
+            stateCopy.status = action.status;
             break;
         default:
             break;
@@ -59,13 +64,43 @@ export const setProfileInfo = (info) => {
     }
 }
 
+export const setUserStatus = (status) => {
+    return {
+        type: SET_USER_STATUS,
+        status: status
+    }
+}
+
+// THUNK
+
 export const getUserProfileInfo = (id) => {
     return (dispatch) => {
         dispatch(setProfileInfo(null)); // очищаем данные профиля пользователя
 
-        usersAPI.getUserProfile(id) // загружаем данные с API в процессе конструктора класса (один раз)
+        profileAPI.getUserProfile(id) // загружаем данные с API в процессе конструктора класса (один раз)
         .then(response => {
             dispatch(setProfileInfo(response.data));
+        });
+    }
+}
+
+export const getUserStatus = (id) => {
+    return (dispatch) => {
+        profileAPI.getStatus(id) // загружаем данные с API в процессе конструктора класса (один раз)
+        .then(response => {
+            dispatch(setUserStatus(response.data));
+        });
+    }
+}
+
+export const updateUserStatus = (status) => {
+    return (dispatch) => {
+        profileAPI.setStatus(status) // загружаем данные с API в процессе конструктора класса (один раз)
+        .then(response => {
+            if (response.data.resultCode === 0) {
+                console.log("updateStatus", response.data, status);
+                dispatch(setUserStatus(status));
+            }
         });
     }
 }

@@ -18,10 +18,21 @@ export const usersAPI = {
     unfollowToUser: (id) => {
         return instance.delete("follow/" + id); // отписка
     },
+    getAuth: () => {
+        return instance.get("auth/me");
+    }
+}
+
+export const profileAPI = {
     getUserProfile: (id) => {
         return instance.get("profile/" + id); // получить профиль пользователя
     },
-    getAuth: () => {
-        return instance.get("auth/me");
+    getStatus: (id) => {
+        return instance.get("profile/status/" + id);
+    },
+    setStatus: (status) => {
+        return instance.put("profile/status/", { // тело запроса (объект)
+            status: status
+        })
     }
 }

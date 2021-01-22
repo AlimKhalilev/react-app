@@ -1,23 +1,33 @@
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { getUserProfileInfo } from "../../../redux/profileReducer";
+import { compose } from "redux";
+import { getUserProfileInfo, getUserStatus, updateUserStatus } from "../../../redux/profileReducer";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 import ProfileInfo from "./ProfileInfoClass";
 
 const mapStateToProps = (state) => {
     return {
-        profileInfo: state.profilePage.profileInfo
+        profileInfo: state.profilePage.profileInfo,
+        status: state.profilePage.status
     }
 }
 
 const mapDispatchToProps = {
-    getUserProfileInfo
+    getUserProfileInfo,
+    getUserStatus,
+    updateUserStatus
 }
 
-const ProfileInfoRedirect = withAuthRedirect(ProfileInfo); // HOC для проверки авторизации
+export default compose( // функция которая является конвеером (передает поочередно HOC снизу вверх (сначала withAuthRedirect -> withRouter -> connect))
+    connect(mapStateToProps, mapDispatchToProps),
+    withRouter,
+    withAuthRedirect
+)(ProfileInfo)
 
-const ProfileInfoWithRouter = withRouter(ProfileInfoRedirect); // HOC добавление withRouter для получения инфы из адресной строки
+// const ProfileInfoRedirect = withAuthRedirect(ProfileInfo); // HOC для проверки авторизации
 
-const ProfileInfoContainer = connect(mapStateToProps, mapDispatchToProps)(ProfileInfoWithRouter); // HOC добавления инфы State и Dispatch
+// const ProfileInfoWithRouter = withRouter(ProfileInfoRedirect); // HOC добавление withRouter для получения инфы из адресной строки
 
-export default ProfileInfoContainer;
+// const ProfileInfoContainer = connect(mapStateToProps, mapDispatchToProps)(ProfileInfoWithRouter); // HOC добавления инфы State и Dispatch
+
+//export default ProfileInfoContainer;

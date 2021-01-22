@@ -1,5 +1,7 @@
 import { connect } from "react-redux";
+import { compose } from "redux";
 import { changeFollow, changeFollowDisabledInfo, followUserThunkCreator, getUsersThunkCreator, setCurrentPage, setFetchingComplete, setPageSize, setTotalUserCount, setUsers, unfollowUserThunkCreator } from "../../redux/usersReducer";
+import { withAuthRedirect } from "../hoc/withAuthRedirect";
 import Users from "./UsersClass";
 
 const mapStateToProps = (state) => {
@@ -26,11 +28,16 @@ const mapDispatchToPropsObject = { // передаем просто объект
     unfollowUserThunkCreator
 }
 
+export default compose(
+    connect(mapStateToProps, mapDispatchToPropsObject),
+    withAuthRedirect
+)(Users);
 
+// const UsersInfoRedirect = withAuthRedirect(Users); // HOC для проверки авторизации
 
-const UsersContainer = connect(mapStateToProps, mapDispatchToPropsObject)(Users);
+// const UsersContainer = connect(mapStateToProps, mapDispatchToPropsObject)(UsersInfoRedirect);
 
-export default UsersContainer;
+// export default UsersContainer;
 
 // const mapDispatchToProps = (dispatch) => {
 //     return {
