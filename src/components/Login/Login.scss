@@ -1,0 +1,11 @@
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+
+    label {
+        &:not(:last-child) {
+            margin-bottom: 1rem;
+        }
+    }
+}

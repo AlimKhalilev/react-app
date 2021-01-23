@@ -1,5 +1,4 @@
 const ADD_MESSAGE = "ADD-MESSAGE"
-const CHANGE_MESSAGE_TEXT = "CHANGE-MESSAGE-TEXT"
 
 let initialState = {
     dialogPersons: [
@@ -13,8 +12,7 @@ let initialState = {
         { id: 2, name: "Alim", message: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, temporibus!" },
         { id: 3, name: "Alim", message: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, temporibus!" },
         { id: 4, name: "Alim", message: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, temporibus!" }
-    ],
-    newDialogMessage: ""
+    ]
 }
 
 const dialogsReducer = (state = initialState, action) => {
@@ -24,14 +22,11 @@ const dialogsReducer = (state = initialState, action) => {
             let newMessage = {
                 id: Date.now(), 
                 name: "Alim", 
-                message: state.newDialogMessage
+                message: action.text
             }
             stateCopy.dialogMessages = [...state.dialogMessages];
             stateCopy.dialogMessages.push(newMessage);
             stateCopy.newDialogMessage = "";
-            break;
-        case CHANGE_MESSAGE_TEXT:
-            stateCopy.newDialogMessage = action.text;
             break;
         default:
             break;
@@ -46,10 +41,11 @@ export const addMessageActionCreator = (text) => {
     }
 }
 
-export const changeMessageActionCreator = (text) => {
-    return {
-        type: CHANGE_MESSAGE_TEXT,
-        text: text
+// THUNK
+
+export const addDialogMessage = (message) => {
+    return (dispatch) => {
+        dispatch(addMessageActionCreator(message));
     }
 }
 

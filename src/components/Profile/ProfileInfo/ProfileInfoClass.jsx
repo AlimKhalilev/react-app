@@ -14,7 +14,7 @@ class ProfileInfoClass extends React.Component {
     }
 
     render() {
-        console.log(this.props)
+        //console.log(this.props)
         return this.props.profileInfo === null 
         ? 
         <Preloader/> 
@@ -24,7 +24,7 @@ class ProfileInfoClass extends React.Component {
 }
 
 const ProfileInfo = (props) => {
-    console.log(props)
+    //console.log(props)
     return (
         <div className="profileInfo">
             <ul className="profileInfo-content">
@@ -82,7 +82,7 @@ class ProfileInfoStatus extends React.Component {
 
     render() {
 
-        console.log("ProfileInfoStatus", this.props);
+        //console.log("ProfileInfoStatus", this.props);
 
         return (
             <div className="profileInfo-status">

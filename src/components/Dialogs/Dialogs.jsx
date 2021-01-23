@@ -10,10 +10,6 @@ const Dialogs = (props) => {
     let dialogPersonsComponents = props.dialogPersons.map(e => <DialogPerson name={e.name} id={e.id} key={e.id} />)
     let dialogMessagesComponent = props.dialogMessages.map(e => <DialogMessage key={e.id} name={e.name} message={e.message}/>)
 
-    const onMessageChangeLocal = (e) => {
-        props.onMessageChange(e.target.value)
-    }
-
     return (
         <div className="dialog">
             <h2>Dialogs</h2>
@@ -25,7 +21,7 @@ const Dialogs = (props) => {
                 </div>
                 <div className="dialog-content-messages">
                     {dialogMessagesComponent}
-                    <AddMessage message={props.newDialogMessage} onMessageAdd={props.onMessageAdd} onMessageChange={onMessageChangeLocal}/>
+                    <AddMessage addMessage={props.addDialogMessage}/>
                 </div>
             </div>
         </div>
