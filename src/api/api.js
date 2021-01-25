@@ -17,11 +17,8 @@ export const usersAPI = {
     },
     unfollowToUser: (id) => {
         return instance.delete("follow/" + id); // отписка
-    },
-    getAuth: () => {
-        return instance.get("auth/me");
     }
-}
+} 
 
 export const profileAPI = {
     getUserProfile: (id) => {
@@ -34,5 +31,19 @@ export const profileAPI = {
         return instance.put("profile/status/", { // тело запроса (объект)
             status: status
         })
+    }
+}
+
+export const authAPI = {
+    getAuth: () => {
+        return instance.get("auth/me");
+    },
+    setLogIn: (email, password, rememberMe) => {
+        return instance.post("auth/login", {
+            email, password, rememberMe
+        });
+    },
+    setLogOut: () => {
+        return instance.delete("auth/login")
     }
 }

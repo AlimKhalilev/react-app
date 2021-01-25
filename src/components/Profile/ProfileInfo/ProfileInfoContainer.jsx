@@ -8,7 +8,8 @@ import ProfileInfo from "./ProfileInfoClass";
 const mapStateToProps = (state) => {
     return {
         profileInfo: state.profilePage.profileInfo,
-        status: state.profilePage.status
+        status: state.profilePage.status,
+        userId: state.auth.userId
     }
 }
 

@@ -1,12 +1,19 @@
 import React from "react"
 import Preloader from "../../Common/Preloader/Preloader";
 import "./ProfileInfo.scss"
+import ProfileInfoStatusHooks from "./ProfileInfoStatusHooks";
 
 class ProfileInfoClass extends React.Component {
     componentDidMount() { // когда компонента смонтирована
         //console.log("props DID: ", this.props);
 
-        let profileID = this.props.match.params.userID || 14231; // если ID нет (underfined), показываем 14231 id (наш id)
+        let profileID = this.props.match.params.userID; // если ID нет (undefined), показываем 14231 id (наш id)
+        if (!profileID) { // если в адр строке нет id пользователя, даем id из state
+            profileID = this.props.userId; // но если в state нет id (не авторизованы)
+            if (!profileID) {
+                this.props.history.push("/login"); // кидаем пользователя на авторизацию
+            }
+        }
         this.props.getUserProfileInfo(profileID);
         this.props.getUserStatus(profileID);
 
@@ -33,70 +40,9 @@ const ProfileInfo = (props) => {
                 <li>Image: <img src={props.photos.small} alt="UserPhoto"/></li>
                 <li>Profile id: {props.userId}</li>
             </ul>
-            <ProfileInfoStatus {...props}/>
+            <ProfileInfoStatusHooks {...props}/>
         </div>
     )
-}
-
-class ProfileInfoStatus extends React.Component {
-    state = {
-        editMode: false,
-        status: this.props.status || "NO STATUS"
-    }
-
-    clickToSpan = () => { // стрелка чтобы был this к state
-        this.setState( // ассинхронный запрос
-            {
-                editMode: true
-            }
-        )
-    }
-
-    unFocusInput = () => {
-        this.setState( // ассинхронный запрос
-            {
-                editMode: false
-            }
-        )
-        this.props.updateStatus(this.state.status);
-    }
-
-    onStatusChange = (e) => {
-        //console.log(e.currentTarget.value);
-        this.setState( // ассинхронный запрос
-            {
-                status: e.currentTarget.value
-            }
-        )
-    }
-
-    componentDidUpdate(prevProps, prevState) { 
-        if (prevProps.status !== this.props.status) { // если предыдущий статус строго не равен текущему (значит изменили статус)
-            this.setState( // ассинхронный запрос
-                {
-                    status: this.props.status // закидываем в локальный state статус из BLL
-                }
-            )
-        }
-    }
-
-    render() {
-
-        //console.log("ProfileInfoStatus", this.props);
-
-        return (
-            <div className="profileInfo-status">
-                <h3>Status:</h3>
-                <div className="profileInfo-status-content">
-                    {
-                        this.state.editMode ? 
-                        <input autoFocus={true} onChange={this.onStatusChange} onBlur={this.unFocusInput} type="text" placeholder="Введите свой статус" value={this.state.status}/> :
-                        <span onDoubleClick={this.clickToSpan}>{this.state.status}</span>
-                    }
-                </div>
-            </div>
-        )
-    }
 }
 
 export default ProfileInfoClass;

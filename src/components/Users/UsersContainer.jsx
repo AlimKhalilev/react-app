@@ -2,13 +2,14 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { changeFollow, changeFollowDisabledInfo, followUserThunkCreator, getUsersThunkCreator, setCurrentPage, setFetchingComplete, setPageSize, setTotalUserCount, setUsers, unfollowUserThunkCreator } from "../../redux/usersReducer";
 import { withAuthRedirect } from "../hoc/withAuthRedirect";
+import { pageSizeSelector, totalUserCountSelector, usersDataSelectorSuper } from "../../redux/usersSelector"
 import Users from "./UsersClass";
 
 const mapStateToProps = (state) => {
     return {
-        usersData: state.usersPage.usersData,
-        pageSize: state.usersPage.pageSize,
-        totalUserCount: state.usersPage.totalUserCount,
+        usersData: usersDataSelectorSuper(state),
+        pageSize: pageSizeSelector(state),
+        totalUserCount: totalUserCountSelector(state),
         currentPage: state.usersPage.currentPage,
         isFetching: state.usersPage.isFetching,
         followDisabledInfo: state.usersPage.followDisabledInfo

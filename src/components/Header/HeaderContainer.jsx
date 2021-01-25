@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { getAuth } from "../../redux/authReducer";
+import { LogoutUser } from "../../redux/authReducer";
 import Header from "./HeaderClass";
 
 const mapStateToProps = (state) => {
@@ -12,8 +12,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToPropsObject = { // передаем просто объект с методами из Reducer
-    getAuth
+    LogoutUser
 }
+
 
 const HeaderContainer = connect(mapStateToProps, mapDispatchToPropsObject)(Header);
 
